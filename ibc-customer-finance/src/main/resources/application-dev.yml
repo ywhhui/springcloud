@@ -1,0 +1,19 @@
+logging:
+  config: classpath:logback-spring-dev.xml
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/gmis_customer?useUnicode=true&characterEncoding=UTF-8
+    username: root
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: 'truelogging:'
+        hbm2ddl:
+          auto: update
+    show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

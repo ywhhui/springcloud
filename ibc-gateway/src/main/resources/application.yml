@@ -1,0 +1,88 @@
+server:
+  port: 6001
+spring:
+  application:
+    name: ibc-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能
+          lower-case-service-id: true #使用小写服务名，默认是大写
+      routes:
+        - id: cust-server
+          uri: lb://ibc-customer
+          predicates:
+            - Path=/cust-server/**
+          filters:
+            - StripPrefix=1
+        - id: cust-fin-server
+          uri: lb://ibc-cust-fin
+          predicates:
+            - Path=/cust-fin-server/**
+          filters:
+            - StripPrefix=1
+        - id: account-server
+          uri: lb://ibc-account
+          predicates:
+            - Path=/account-server/**
+          filters:
+            - StripPrefix=1
+        - id: cougua-server
+          uri: lb://ibc-cougua
+          predicates:
+            - Path=/cougua-server/**
+          filters:
+            - StripPrefix=1
+        - id: project-server
+          uri: lb://ibc-project
+          predicates:
+            - Path=/project-service/**
+          filters:
+            - StripPrefix=1
+        - id: file-server
+          uri: lb://ibc-file
+          predicates:
+            - Path=/file-service/**
+          filters:
+            - StripPrefix=1
+        - id: bpmn-server
+          uri: lb://ibc-bpmn
+          predicates:
+            - Path=/bpmn-service/**
+          filters:
+            - StripPrefix=1
+#        - id: cust-server-2
+#          uri: http://127.0.0.1:7083
+#          predicates:
+#            - Path=/query-demo-2/**
+#          filters:
+#            - StripPrefix=1
+#      routes:
+#        - id: cust-server
+#          uri: lb://customer-service
+#          predicates:
+#            - Path=/query-demo/**
+#          filters:
+#            - StripPrefix=1
+#        - id: cust-server-2
+#          uri: http://127.0.0.1:7083
+#          predicates:
+#            - Path=/query-demo-2/**
+#          filters:
+#            - StripPrefix=1
+#        - id: cust-server-3
+#          uri: http://127.0.0.1:7083
+#          predicates:
+#            - Path=/query-demo-3/**
+#        - id: cust-server-4
+#          uri: http://127.0.0.1:7083
+#          predicates:
+#            - Path=/*/query-demo-4/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: info

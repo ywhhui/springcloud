@@ -31,6 +31,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,10 +48,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @Author liaohong
- * @create 2022/9/17 16:41
+ * 测试实时更新 自动刷新nacos配置 在应用不需要重启的情况下热加载新的外部化配置的值
  */
 @Service
+@RefreshScope
 public class MaterialService extends BaseService<MaterialRepository, MaterialInfo, Integer> implements IMaterialService {
 
     private static final Log logger = LogFactory.getLog(MaterialService.class);
@@ -58,8 +59,9 @@ public class MaterialService extends BaseService<MaterialRepository, MaterialInf
     @Autowired
     IFileClient fileClient;
 
-    @Value("${report.template.path}")
-    String templatePath;
+    @Value("${report.template.path:C:\\\\file\\\\template}")
+//    @Value("${ywhpath}")
+    private String templatePath;
 
     @Autowired
     IndividualRepository individualRepository;
